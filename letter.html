@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surat Valentine 💌</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.7);
+      --me1:#7c5cff;
+      --me2:#ff6aa2;
+      --good:#48d597;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --r: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(255,106,162,.20), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(124,92,255,.20), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      color:var(--text);
+
+      /* ✅ SCROLL HALAMAN NYALA */
+      overflow:auto;
+
+      /* ✅ iOS smooth scroll */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:grid;
+      place-items:center;
+      padding:18px;
+    }
+    .stage{
+      width:min(520px, 100%);
+      position:relative;
+      text-align:center;
+    }
+
+    /* =========================================================
+       ✅ VALENTINE MESSAGE ICON (IMPROVE)
+       - envelope glass + gradient
+       - tiny heart seal
+       - shimmer highlight
+       - smoother open (spring-ish)
+    ==========================================================*/
+    .mail{
+      width:240px;
+      height:165px;
+      margin:0 auto;
+      position:relative;
+      transform-origin:center;
+      filter: drop-shadow(0 20px 34px rgba(0,0,0,.48));
+      animation: float 2.8s ease-in-out infinite;
+      cursor:pointer;
+      user-select:none;
+      will-change: transform;
+    }
+    .mail:hover{ filter: drop-shadow(0 26px 46px rgba(0,0,0,.55)); }
+    @keyframes float{
+      0%,100%{ transform: translateY(0) rotate(-.8deg); }
+      50%{ transform: translateY(-10px) rotate(.8deg); }
+    }
+
+    /* glass body */
+    .mail .body{
+      position:absolute;
+      inset:0;
+      border-radius:26px;
+      background:
+        radial-gradient(120px 90px at 20% 18%, rgba(255,255,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow:hidden;
+    }
+    /* shimmer */
+    .mail .body:before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background: linear-gradient(110deg,
+        transparent 30%,
+        rgba(255,255,255,.18) 45%,
+        transparent 60%);
+      transform: translateX(-35%);
+      animation: shimmer 3.2s ease-in-out infinite;
+      opacity:.9;
+      pointer-events:none;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-55%) rotate(6deg); opacity:.25; }
+      45%{ opacity:.55; }
+      100%{ transform: translateX(55%) rotate(6deg); opacity:.25; }
+    }
+
+    /* top flap (prettier + smooth open) */
+    .flap{
+      position:absolute;
+      left:0; right:0;
+      top:0;
+      height:62%;
+      transform-origin: top center;
+      background:
+        radial-gradient(140px 120px at 20% 10%, rgba(255,255,255,.18), transparent 55%),
+        linear-gradient(135deg, rgba(124,92,255,.62), rgba(255,106,162,.62));
+      border:1px solid rgba(255,255,255,.18);
+      border-bottom:none;
+      border-top-left-radius:26px;
+      border-top-right-radius:26px;
+      clip-path: polygon(0 0, 100% 0, 50% 82%);
+      transform: perspective(900px) rotateX(0deg);
+      transition: transform .85s cubic-bezier(.18,.9,.18,1);
+      will-change: transform;
+    }
+
+    /* heart seal */
+    .seal{
+      position:absolute;
+      left:50%;
+      top:52%;
+      transform: translate(-50%, -50%);
+      width:34px;height:34px;
+      border-radius:14px;
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.22), transparent 55%),
+                  linear-gradient(135deg, rgba(255,106,162,.95), rgba(124,92,255,.9));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 34px rgba(0,0,0,.35);
+      display:grid;
+      place-items:center;
+      transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .35s ease;
+      z-index:3;
+    }
+    .seal:before{
+      content:"";
+      width:14px;height:14px;
+      transform: rotate(45deg);
+      border-radius:3px;
+      background: rgba(255,255,255,.92);
+      position:relative;
+    }
+    .seal:after{
+      content:"";
+      position:absolute;
+      width:14px;height:14px;
+      background: rgba(255,255,255,.92);
+      border-radius:50%;
+      left:50%;
+      top:50%;
+      transform: translate(-56%, -78%);
+      box-shadow: 7px 7px 0 0 rgba(255,255,255,.92);
+    }
+
+    /* letter preview */
+    .letter-peek{
+      position:absolute;
+      left:14px; right:14px;
+      bottom:14px;
+      height:60%;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(120px 90px at 80% 30%, rgba(255,106,162,.10), transparent 60%),
+        rgba(0,0,0,.18);
+      overflow:hidden;
+      transform: translateY(34px);
+      transition: transform .95s cubic-bezier(.18,.9,.18,1);
+      z-index:2;
+    }
+    .peek-lines{
+      padding:14px;
+      display:grid;
+      gap:8px;
+      opacity:.9;
+    }
+    .line{
+      height:10px;
+      border-radius:99px;
+      background: rgba(255,255,255,.12);
+    }
+    .line:nth-child(2){width:82%}
+    .line:nth-child(3){width:70%}
+    .line:nth-child(4){width:88%}
+
+    /* ping improved */
+    .ping{
+      position:absolute;
+      right:14px;
+      top:14px;
+      width:12px;height:12px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2));
+      box-shadow: 0 0 0 0 rgba(255,106,162,.45);
+      animation: ping 1.5s ease-out infinite;
+      z-index:4;
+    }
+    @keyframes ping{
+      0%{ box-shadow:0 0 0 0 rgba(255,106,162,.35); transform:scale(1); }
+      100%{ box-shadow:0 0 0 18px rgba(255,106,162,0); transform:scale(1.02); }
+    }
+
+    /* opened state */
+    .opened{
+      animation:none;
+      cursor:default;
+    }
+    .opened .flap{ transform: perspective(900px) rotateX(170deg); }
+    .opened .letter-peek{ transform: translateY(0px); }
+    .opened .seal{
+      transform: translate(-50%, -50%) scale(.6) rotate(-12deg);
+      opacity:0;
+      pointer-events:none;
+    }
+
+    /* --- button --- */
+    .controls{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    button{
+      border:0;
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:750;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+      user-select:none;
+    }
+    button:active{ transform:translateY(1px) scale(.99); }
+    .primary{
+      background: linear-gradient(135deg, var(--me1), var(--me2));
+      color:white;
+      box-shadow: 0 16px 44px rgba(124,92,255,.18);
+    }
+    .ghost{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.85);
+    }
+
+    /* --- letter panel --- */
+    .letterShell{
+      margin-top:16px;
+      width:100%;
+      border-radius: var(--r);
+      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow:hidden;
+
+      opacity:0;
+      transform: translateY(18px) scale(.98);
+      pointer-events:none;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .letterShell.show{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      pointer-events:auto;
+    }
+    .letterTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 14px;
+      background: rgba(0,0,0,.14);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      text-align:left;
+    }
+    .who{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .avatar{
+      width:30px;height:30px;border-radius:10px;
+      background: linear-gradient(135deg, rgba(124,92,255,.9), rgba(255,106,162,.9));
+      border:1px solid rgba(255,255,255,.18);
+      flex:0 0 auto;
+    }
+    .meta{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+    .meta b{ font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .meta span{ font-size:12px; color:var(--muted); }
+
+    .tinyBtn{
+      padding:8px 10px;
+      border-radius:12px;
+      font-weight:700;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.85);
+      cursor:pointer;
+    }
+
+    .letterBody{
+      padding:16px 16px 10px;
+      text-align:left;
+      min-height:240px;
+    }
+    .paper{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:14px 14px;
+      line-height:1.75;
+      font-size:14.5px;
+      white-space:pre-wrap;
+      position:relative;
+      overflow:hidden;
+    }
+    .paper:before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background: radial-gradient(circle at 30% 10%, rgba(255,106,162,.10), transparent 55%),
+                  radial-gradient(circle at 80% 30%, rgba(124,92,255,.10), transparent 55%);
+      filter: blur(0px);
+      pointer-events:none;
+    }
+    .paperContent{
+      position:relative;
+      z-index:1;
+      min-height:160px;
+      font-variant-ligatures: none;
+    }
+
+    /* typing caret */
+    .caret{
+      display:inline-block;
+      width:8px;
+      height:16px;
+      border-radius:4px;
+      background: rgba(255,255,255,.75);
+      margin-left:4px;
+      transform: translateY(2px);
+      animation: blink .9s infinite;
+    }
+    @keyframes blink{ 0%,49%{opacity:1} 50%,100%{opacity:.15} }
+
+    /* reply area */
+    .replyWrap{
+      display:none;
+      padding:12px 14px 14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      text-align:left;
+      gap:10px;
+    }
+    .replyWrap.show{ display:grid; }
+
+    textarea{
+      width:100%;
+      min-height:86px;
+      resize:vertical;
+      border-radius:16px;
+      padding:11px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:rgba(255,255,255,.92);
+      outline:none;
+      font-size:14px;
+      line-height:1.45;
+      transition:.2s ease;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .hint{
+      font-size:12.5px;
+      color: rgba(255,255,255,.70);
+      line-height:1.4;
+    }
+    .send{
+      background: rgba(72,213,151,.14);
+      border:1px solid rgba(72,213,151,.22);
+      color: rgba(255,255,255,.92);
+      font-weight:850;
+    }
+
+    /* toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding:10px 12px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index:9;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-4px);
+    }
+
+    /* ===== AKHIRAN ===== */
+    #ending{
+      position:fixed;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:18px;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      opacity:0;
+      pointer-events:none;
+      transition:.3s ease;
+      z-index:999;
+    }
+    #ending.show{ opacity:1; pointer-events:auto; }
+    #ending .card{
+      width:min(520px,100%);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      padding:18px;
+      box-shadow: var(--shadow);
+      text-align:left;
+    }
+    #ending h2{ margin:0 0 8px; font-size:18px; }
+    #ending p{ margin:0 0 12px; color:rgba(255,255,255,.78); line-height:1.55; font-size:14px; }
+    #ending .btns{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+
+    /* =========================================================
+       ✅ VALENTINE ANIMATION (ditambah, yang lain ga diubah)
+       - hearts sprinkle pas surat kebuka
+       - love pulse halo di paper
+       - sedikit confetti-heart pas typing selesai
+    ==========================================================*/
+    .val-hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:50;
+      opacity:0;
+      transition: opacity .25s ease;
+    }
+    .val-hearts.show{ opacity:1; }
+
+    .val-heart{
+      position:absolute;
+      width:12px;height:12px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, rgba(255,106,162,.95), rgba(124,92,255,.95));
+      border-radius: 3px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+      animation: valFloat 6.5s linear infinite;
+      opacity:.0;
+    }
+    .val-heart:before,.val-heart:after{
+      content:"";
+      position:absolute;
+      width:12px;height:12px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .val-heart:before{ left:-6px; top:0; }
+    .val-heart:after{ left:0; top:-6px; }
+
+    @keyframes valFloat{
+      0%{ transform: translateY(110vh) rotate(45deg) scale(.9); opacity:0; }
+      10%{ opacity:.9; }
+      100%{ transform: translateY(-15vh) rotate(45deg) scale(1.15); opacity:0; }
+    }
+
+    /* glow pulse on paper while typing */
+    .paper.val-glow:after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:20px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,106,162,.25), transparent 55%),
+                  radial-gradient(circle at 80% 40%, rgba(124,92,255,.22), transparent 60%);
+      filter: blur(10px);
+      opacity:.85;
+      animation: lovePulse 1.6s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes lovePulse{
+      0%,100%{ transform: scale(1); opacity:.55; }
+      50%{ transform: scale(1.03); opacity:.9; }
+    }
+
+    /* small burst hearts (confetti) */
+    .burst{
+      position:fixed;
+      left:50%;
+      top:45%;
+      width:1px;height:1px;
+      pointer-events:none;
+      z-index:60;
+    }
+    .burst i{
+      position:absolute;
+      width:10px;height:10px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, rgba(255,106,162,.95), rgba(124,92,255,.95));
+      border-radius: 3px;
+      opacity:0;
+      animation: pop 900ms ease-out forwards;
+    }
+    .burst i:before,.burst i:after{
+      content:"";
+      position:absolute;
+      width:10px;height:10px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .burst i:before{ left:-5px; top:0; }
+    .burst i:after{ left:0; top:-5px; }
+
+    @keyframes pop{
+      0%{ transform: translate(0,0) rotate(45deg) scale(.6); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translate(var(--x), var(--y)) rotate(45deg) scale(1.15); opacity:0; }
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .mail, .mail .body:before, .val-heart, .paper.val-glow:after, .ping{ animation:none!important; }
+      .flap, .letter-peek, .seal{ transition:none!important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ overlay hearts (valentine) -->
+  <div class="val-hearts" id="valHearts" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="stage">
+
+      <div class="mail" id="mail" title="Klik buat buka">
+        <div class="body"></div>
+        <div class="ping" id="ping"></div>
+
+        <!-- ✅ heart seal (baru) -->
+        <div class="seal" aria-hidden="true"></div>
+
+        <div class="flap"></div>
+
+        <div class="letter-peek">
+          <div class="peek-lines">
+            <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="ghost" type="button" onclick="location.href='index.html'">Kembali</button>
+        <button class="primary" id="openBtn">Buka Surat </button>
+      </div>
+
+      <div class="letterShell" id="letterShell">
+        <div class="letterTop">
+          <div class="who">
+            <div class="avatar"></div>
+            <div class="meta">
+              <b id="toName">Untuk Sayang</b>
+              <span id="status">mengketik…</span>
+            </div>
+          </div>
+          <button class="tinyBtn" id="copyLetterBtn">Copy Surat</button>
+        </div>
+
+        <div class="letterBody">
+          <div class="paper" id="paperBox">
+            <div class="paperContent" id="paperText"></div><span class="caret" id="caret"></span>
+          </div>
+        </div>
+
+        <div class="replyWrap" id="replyWrap">
+          <div class="hint">
+            Tulis balasan kamu. Nanti kekirim ke wa hehehe
+          </div>
+          <textarea id="replyText" placeholder="Tulis balasan kamu di sini…"></textarea>
+          <div class="row">
+            <button class="ghost" id="copyReplyBtn" type="button">Copy Balasan</button>
+            <button class="send" id="sendBtn" type="button">Kirim ke WhatsApp </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast">OK</div>
+
+  <div id="ending" aria-hidden="true">
+    <div class="card">
+      <h2>Makasih ya 🤍</h2>
+      <p>Makasih udah baca sayang dan makasih udah ngirim balasan.</p>
+      <p>Jangan marah lagii ya pwissss.</p>
+      <div class="btns">
+        <button class="ghost" id="endClose" type="button">Tutup</button>
+        <button class="primary" id="endAgain" type="button">Buka WhatsApp Lagi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ nomor WA tujuan (nomor kamu)
+    const YOUR_WA_NUMBER = "6282119757264"; // ganti kalau perlu
+
+    const CONFIG = {
+      to: "Aghisna Irfa Arnas",
+      from: "Aku",
+      letter: [
+        "dear sayang…",
+        "",
+        "Happy Valentine day sayang apa friend day yaa kita wwkwkwkw, sebelumnya aku minta maap ya ga ngasih kamu bunga atau coklat hehehe.",
+        "",
+        "Kadang aku kesel sendiri kenapa kita harus LDR gini.",
+        "Rasanya pengen banget bisa ketemu kamu, ngasih bunga langsung, peluk kamu, dan bilang semuanya langsung depan muka kamu wkwkw.",
+        "",
+        "Aku mungkin bukan orang yang romantis banget,",
+        "nggak pinter ngomong manis, nggak pinter bikin surprise,",
+        "bahkan kadang keliatan cuek atau biasa aja.",
+        "",
+        "Tapi bukan berarti aku nggak sayang.",
+        "Yang pasti Lopyuu wkkw.",
+        "",
+        "coklatnya when aja dlu, mungkin turun dari langit ntar mueheheh",
+        "Aku sayang kamu. 🤍",
+        "",
+        `— ${"Aku reyzal im jall gue reyzal gaggaa"}`
+      ].join("\n"),
+      typingSpeed: { min: 18, max: 38 },
+      afterDoneDelay: 450
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const rand = (a,b) => Math.floor(a + Math.random()*(b-a+1));
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    const mail = $("mail");
+    const ping = $("ping");
+    const openBtn = $("openBtn");
+    const letterShell = $("letterShell");
+    const paperText = $("paperText");
+    const caret = $("caret");
+    const status = $("status");
+    const toName = $("toName");
+    const replyWrap = $("replyWrap");
+    const replyText = $("replyText");
+    const sendBtn = $("sendBtn");
+    const toast = $("toast");
+    const copyLetterBtn = $("copyLetterBtn");
+    const copyReplyBtn = $("copyReplyBtn");
+
+    const ending = $("ending");
+    const endClose = $("endClose");
+    const endAgain = $("endAgain");
+
+    // ✅ valentine anim hooks
+    const valHearts = $("valHearts");
+    const paperBox = $("paperBox");
+
+    toName.textContent = `Untuk ${CONFIG.to}`;
+
+    function showToast(text){
+      toast.textContent = text || "OK";
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 1300);
+    }
+
+    function openWhatsApp(message){
+      const url = `https://wa.me/${YOUR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) location.href = url;
+      else window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    // ===== Valentine helpers =====
+    function mountHearts(){
+      if (valHearts.children.length) return;
+      const count = 14;
+      for (let i=0;i<count;i++){
+        const h = document.createElement("span");
+        h.className = "val-heart";
+        h.style.left = `${Math.floor(6 + Math.random()*88)}%`;
+        h.style.animationDelay = `${(Math.random()*2.4).toFixed(2)}s`;
+        h.style.animationDuration = `${(5.8 + Math.random()*3.4).toFixed(2)}s`;
+        valHearts.appendChild(h);
+      }
+    }
+    function showHearts(){
+      mountHearts();
+      valHearts.classList.add("show");
+    }
+
+    function burstHearts(){
+      const b = document.createElement("div");
+      b.className = "burst";
+      document.body.appendChild(b);
+
+      const n = rand(10,12);
+      for (let i=0;i<n;i++){
+        const p = document.createElement("i");
+        const angle = (Math.PI * 2) * (i / n);
+        const dist = rand(70, 140);
+        const x = Math.round(Math.cos(angle) * dist);
+        const y = Math.round(Math.sin(angle) * dist) - rand(10, 40);
+
+        p.style.setProperty("--x", `${x}px`);
+        p.style.setProperty("--y", `${y}px`);
+        p.style.animationDelay = `${(Math.random()*0.12).toFixed(2)}s`;
+        b.appendChild(p);
+      }
+
+      setTimeout(()=> b.remove(), 950);
+    }
+
+    let running = false;
+    let lastPayload = "";
+
+    async function typeLetter(fullText){
+      paperText.textContent = "";
+      caret.style.display = "inline-block";
+      status.textContent = "mengetik…";
+
+      // ✅ valentine glow while typing
+      paperBox.classList.add("val-glow");
+
+      for (let i = 0; i < fullText.length; i++){
+        paperText.textContent += fullText[i];
+        await sleep(rand(CONFIG.typingSpeed.min, CONFIG.typingSpeed.max));
+      }
+
+      status.textContent = "selesai dibaca";
+      caret.style.display = "none";
+
+      paperBox.classList.remove("val-glow");
+      burstHearts();
+    }
+
+    async function openSequence(){
+      if (running) return;
+      running = true;
+
+      mail.classList.add("opened");
+      ping.style.opacity = "0";
+      ping.style.animation = "none";
+      openBtn.disabled = true;
+      openBtn.textContent = "Pesan Dibuka";
+
+      // ✅ hearts appear when opened
+      showHearts();
+
+      letterShell.classList.add("show");
+      await sleep(250);
+
+      await typeLetter(CONFIG.letter);
+
+      await sleep(CONFIG.afterDoneDelay);
+      replyWrap.classList.add("show");
+
+      replyWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      running = false;
+    }
+
+    openBtn.addEventListener("click", openSequence);
+    mail.addEventListener("click", openSequence);
+
+    copyLetterBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(paperText.textContent.trim());
+        showToast("Surat ke-copy 📋");
+      }catch(e){
+        showToast("Gagal copy (izin browser)");
+      }
+    });
+
+    copyReplyBtn.addEventListener("click", async () => {
+      const v = (replyText.value || "").trim();
+      if (!v) return showToast("Tulis balasan dulu 🙂");
+      try{
+        await navigator.clipboard.writeText(v);
+        showToast("Balasan ke-copy 📋");
+      }catch(e){
+        showToast("Gagal copy (izin browser)");
+      }
+    });
+
+    sendBtn.addEventListener("click", () => {
+      const v = (replyText.value || "").trim();
+      if (!v){
+        showToast("Balasan masih kosong 🙂");
+        return;
+      }
+
+      lastPayload =
+`Balasan dari ${CONFIG.to} (${new Date().toLocaleString("id-ID")}):
+${v}`;
+
+      showToast("Buka WhatsApp…");
+      openWhatsApp(lastPayload);
+
+      setTimeout(() => {
+        ending.classList.add("show");
+        ending.setAttribute("aria-hidden","false");
+      }, 450);
+    });
+
+    endClose.addEventListener("click", () => {
+      ending.classList.remove("show");
+      ending.setAttribute("aria-hidden","true");
+    });
+
+    endAgain.addEventListener("click", () => {
+      if (!lastPayload) return showToast("Belum ada pesan 🙂");
+      openWhatsApp(lastPayload);
+    });
+
+    ending.addEventListener("click", (e) => {
+      if (e.target === ending){
+        ending.classList.remove("show");
+        ending.setAttribute("aria-hidden","true");
+      }
+    });
+  </script>
+</body>
+</html>
