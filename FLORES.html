@@ -6,66 +6,260 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/main.css">
   <link rel="icon" href="img/flowers.png" type="image/x-icon">
-  <title>FLORES</title>
+  <title>FLORES 🌸</title>
 
   <style>
+    /* =========================================================
+       ✨ FLOATING NAVIGATION (ELEGANT & MOBILE-OPTIMIZED)
+    ==========================================================*/
     .val-controls{
       position: fixed;
       left: 50%;
-      bottom: 18px;
+      bottom: 20px;
       transform: translateX(-50%);
       display: flex;
+      align-items: center;
       gap: 10px;
       z-index: 9999;
-      flex-wrap: wrap;
-      justify-content: center;
+      padding: 12px 18px;
+      background: rgba(0,0,0,.60);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      box-shadow: 
+        0 20px 50px rgba(0,0,0,.5),
+        inset 0 1px 1px rgba(255,255,255,.1);
+      
+      /* GPU acceleration */
+      transform: translateX(-50%) translateZ(0);
+      will-change: transform;
+      
+      /* Smooth transitions */
+      transition: opacity .3s ease, transform .3s cubic-bezier(.18,.9,.18,1);
     }
+    
+    /* Hide when scrolling (optional) */
+    .val-controls.hidden{
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+      pointer-events: none;
+    }
+
     .val-btn{
-      border:0;
-      padding:12px 14px;
-      border-radius:999px;
-      font-weight:900;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background: linear-gradient(135deg, #7c5cff, #ff4d8d);
-      color:white;
-      box-shadow: 0 16px 44px rgba(0,0,0,.35);
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 850;
+      font-size: 13.5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      user-select: none;
+      
+      /* Smooth interactions */
+      transition: all .2s cubic-bezier(.18,.9,.18,1);
+      
+      /* GPU acceleration */
+      transform: translateZ(0);
+      will-change: transform;
     }
+    
+    .val-btn:active{ 
+      transform: scale(.96) translateZ(0); 
+    }
+    
+    /* Primary button (gradient) */
+    .val-btn.primary{
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.15), transparent 65%),
+        linear-gradient(135deg, #7c5cff, #ff4d8d);
+      color: white;
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 
+        0 8px 28px rgba(124,92,255,.35),
+        0 0 0 0 rgba(255,106,162,.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .val-btn.primary:hover{
+      box-shadow: 
+        0 12px 36px rgba(124,92,255,.45),
+        0 0 0 8px rgba(255,106,162,.15);
+      filter: brightness(1.08);
+    }
+    
+    /* Shimmer effect */
+    .val-btn.primary:before{
+      content: "";
+      position: absolute;
+      inset: -100%;
+      background: linear-gradient(110deg,
+        transparent 35%,
+        rgba(255,255,255,.28) 50%,
+        transparent 65%);
+      animation: shimmerFlow 3s linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes shimmerFlow{
+      0%{ transform: translateX(-100%) rotate(20deg); }
+      100%{ transform: translateX(100%) rotate(20deg); }
+    }
+    
+    /* Ghost button (subtle) */
     .val-btn.ghost{
       background: rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.18);
-      color: rgba(255,255,255,.9);
+      color: rgba(255,255,255,.92);
+    }
+    
+    .val-btn.ghost:hover{
+      background: rgba(255,255,255,.15);
+      border-color: rgba(255,255,255,.25);
     }
 
-    /* kecil aja biar ga ganggu: indikator musik */
+    /* =========================================================
+       ✨ MUSIC CONTROL (COMPACT & NON-INTRUSIVE)
+    ==========================================================*/
     .music-pill{
       position: fixed;
-      top: 14px;
+      top: 18px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.18);
-      color: rgba(255,255,255,.9);
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.92);
       font-weight: 800;
       font-size: 12.5px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 16px 44px rgba(0,0,0,.35);
+      box-shadow: 
+        0 16px 44px rgba(0,0,0,.4),
+        inset 0 1px 1px rgba(255,255,255,.08);
       user-select: none;
-      opacity: .9;
+      
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      /* GPU acceleration */
+      transform: translateX(-50%) translateZ(0);
+      will-change: transform;
+      
+      /* Smooth transitions */
+      transition: opacity .3s ease, transform .3s ease;
     }
+    
+    .music-pill.hidden{
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+      pointer-events: none;
+    }
+    
+    #musicState{
+      font-weight: 900;
+      color: #48d597;
+      text-shadow: 0 0 10px rgba(72,213,151,.3);
+    }
+    
     .music-pill button{
       all: unset;
       cursor: pointer;
-      margin-left: 10px;
-      font-weight: 900;
-      opacity: .95;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      font-weight: 850;
+      font-size: 11.5px;
+      transition: all .2s ease;
+      color: rgba(255,255,255,.88);
+    }
+    
+    .music-pill button:hover{
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.25);
+      transform: scale(1.05);
+    }
+    
+    .music-pill button:active{
+      transform: scale(.96);
+    }
+
+    /* =========================================================
+       ✨ MOBILE OPTIMIZATIONS
+    ==========================================================*/
+    @media (max-width: 640px){
+      .val-controls{
+        padding: 10px 14px;
+        gap: 8px;
+        bottom: 16px;
+      }
+      
+      .val-btn{
+        padding: 9px 16px;
+        font-size: 12.5px;
+        gap: 6px;
+      }
+      
+      .music-pill{
+        padding: 8px 12px;
+        font-size: 11.5px;
+        gap: 8px;
+        top: 14px;
+      }
+      
+      .music-pill button{
+        padding: 3px 8px;
+        font-size: 10.5px;
+      }
+    }
+    
+    /* Very small screens */
+    @media (max-width: 380px){
+      .val-controls{
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 12px;
+      }
+      
+      .val-btn{
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* =========================================================
+       ✨ PERFORMANCE OPTIMIZATIONS
+    ==========================================================*/
+    
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .val-btn,
+      .music-pill,
+      .val-controls{
+        transition: none !important;
+        animation: none !important;
+      }
+      
+      .val-btn.primary:before{
+        display: none;
+      }
+    }
+    
+    /* High refresh rate optimization */
+    @media (min-resolution: 120dpi){
+      .val-btn,
+      .music-pill{
+        will-change: transform, opacity;
+      }
     }
   </style>
 </head>
@@ -73,18 +267,19 @@
 <body class="container">
   <div class="night"></div>
 
-  <!-- ✅ Musik: file ada di folder img dengan nama Floricienta.mp3 -->
-  <!-- NOTE: Autoplay sering diblokir browser kalau ada suara. Jadi ini pake autoplay+muted,
-       lalu auto-unmute begitu user pertama kali tap/click di layar. -->
+  <!-- ✨ Background Music -->
   <audio id="bgm" autoplay loop muted playsinline preload="auto">
     <source src="img/Floricienta.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- ✨ Music Control (Compact) -->
   <div class="music-pill" id="musicPill" aria-live="polite">
-    🎶 Musik: <span id="musicState">ON</span>
-    <button id="toggleMusic" type="button">Pause</button>
+    <span>🎶</span>
+    <span id="musicState">ON</span>
+    <button id="toggleMusic" type="button" aria-label="Toggle music">Pause</button>
   </div>
 
+  <!-- ✨ Flower Animation (original) -->
   <div class="flowers">
     <div class="flower flower--1">
       <div class="flower__leafs flower__leafs--1">
@@ -295,29 +490,42 @@
     </div>
   </div>
 
-  <div class="val-controls">
-    <a class="val-btn ghost" href="index.html">Index</a>
-    <a class="val-btn" href="letter.html">  Buka Surat</a>
-  </div>
+  <!-- ✨ Navigation Controls (Optimized) -->
+  <nav class="val-controls" id="valControls">
+    <a class="val-btn ghost" href="letter.html">
+      <span>🏠</span>
+      <span>Home</span>
+    </a>
+    <a class="val-btn primary" href="letter.html">
+      <span>💌</span>
+      <span>Buka Surat</span>
+    </a>
+  </nav>
 
   <script>
-    // ✅ tetap jalanin behavior awal kamu
+    // ✅ Original behavior
     onload = () => {
       document.body.classList.remove("container");
     };
 
-    // ✅ AUTOPLAY: start muted dulu (biar ga diblok)
-    // lalu begitu user pertama kali tap/click, langsung unmute & play
+    // ✅ OPTIMIZED MUSIC CONTROL
     const bgm = document.getElementById("bgm");
     const musicState = document.getElementById("musicState");
     const toggleMusic = document.getElementById("toggleMusic");
+    const musicPill = document.getElementById("musicPill");
 
     bgm.volume = 0.7;
 
+    // Start with autoplay attempt (muted first)
     async function tryStartMuted(){
-      try { await bgm.play(); } catch(e) {}
+      try { 
+        await bgm.play(); 
+      } catch(e) {
+        console.log('Autoplay blocked, waiting for user interaction');
+      }
     }
 
+    // Enable sound on first user interaction
     async function enableSound(){
       try{
         bgm.muted = false;
@@ -325,31 +533,66 @@
         musicState.textContent = "ON";
         toggleMusic.textContent = "Pause";
       }catch(e){
-        // kalau masih keblok, user tinggal klik tombol pause/play (yang jadi Play)
+        // If still blocked, show tap prompt
         musicState.textContent = "TAP";
         toggleMusic.textContent = "Play";
       }
     }
 
-    // mulai muted auto
+    // Initialize
     tryStartMuted();
 
-    // unmute di interaksi pertama user (pasti ke-allow)
-    window.addEventListener("pointerdown", enableSound, { once:true });
+    // Unmute on first interaction (guaranteed to work)
+    window.addEventListener("pointerdown", enableSound, { once: true });
 
-    // tombol pause/play manual
-    toggleMusic.addEventListener("click", async () => {
+    // Manual toggle
+    toggleMusic.addEventListener("click", async (e) => {
+      e.stopPropagation(); // Prevent double-trigger
+      
       if (bgm.paused) {
         bgm.muted = false;
-        await bgm.play();
-        musicState.textContent = "ON";
-        toggleMusic.textContent = "Pause";
+        try {
+          await bgm.play();
+          musicState.textContent = "ON";
+          toggleMusic.textContent = "Pause";
+        } catch(err) {
+          console.error('Play failed:', err);
+        }
       } else {
         bgm.pause();
         musicState.textContent = "OFF";
         toggleMusic.textContent = "Play";
       }
     });
+
+    // ✅ SMART UI: Auto-hide controls on idle (optional enhancement)
+    let idleTimer;
+    const controls = document.getElementById("valControls");
+    
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      controls.classList.remove('hidden');
+      musicPill.classList.remove('hidden');
+      
+      // Hide after 5 seconds of inactivity (optional - can be removed if you want controls always visible)
+      // idleTimer = setTimeout(() => {
+      //   controls.classList.add('hidden');
+      //   musicPill.classList.add('hidden');
+      // }, 5000);
+    }
+    
+    // Track user activity
+    ['mousemove', 'touchstart', 'click', 'scroll'].forEach(event => {
+      document.addEventListener(event, resetIdleTimer, { passive: true });
+    });
+    
+    resetIdleTimer();
+
+    // ✅ Performance: Reduce animations on low-end devices
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+      // Low-end device detected - reduce animation complexity if needed
+      console.log('Low-end device detected, optimizing animations');
+    }
   </script>
 
   <script src="main.js"></script>

@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Surat Valentine 💌</title>
   <style>
     :root{
@@ -18,29 +18,25 @@
       --r: 22px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;margin:0;padding:0}
 
     body{
-      margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       background:
         radial-gradient(1200px 700px at 15% 10%, rgba(255,106,162,.20), transparent 55%),
         radial-gradient(900px 600px at 85% 20%, rgba(124,92,255,.20), transparent 55%),
         linear-gradient(180deg, #070a14, var(--bg));
       color:var(--text);
-
-      /* ✅ SCROLL HALAMAN NYALA */
       overflow:auto;
-
-      /* ✅ iOS smooth scroll */
       -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px; /* Space for floating nav */
     }
 
     .wrap{
       min-height:100%;
       display:grid;
       place-items:center;
-      padding:18px;
+      padding:20px;
     }
     .stage{
       width:min(520px, 100%);
@@ -49,64 +45,188 @@
     }
 
     /* =========================================================
-       ✅ VALENTINE MESSAGE ICON (IMPROVE)
-       - envelope glass + gradient
-       - tiny heart seal
-       - shimmer highlight
-       - smoother open (spring-ish)
+      ✨ FLOATING NAVIGATION BAR (SMART AUTO-HIDE)
+    ==========================================================*/
+    .floating-nav{
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.5),
+        inset 0 1px 1px rgba(255,255,255,.1);
+      opacity: 1;
+      transition:
+        opacity .3s ease,
+        transform .3s cubic-bezier(.18,.9,.18,1);
+    }
+
+    .floating-nav.hidden{
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+      pointer-events: none;
+    }
+
+    .floating-nav.reading-mode{
+      opacity: .3;
+    }
+    .floating-nav.reading-mode:hover{
+      opacity: 1;
+    }
+
+    .nav-btn{
+      border: 0;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: all .2s ease;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      text-decoration:none;
+    }
+    .nav-btn:active{ transform: scale(.96); }
+
+    .nav-btn.home{
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.88);
+    }
+    .nav-btn.home:hover{
+      background: rgba(255,255,255,.15);
+      border-color: rgba(255,255,255,.25);
+    }
+
+    .nav-btn.primary{
+      background: linear-gradient(135deg, var(--me1), var(--me2));
+      color: white;
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 8px 24px rgba(124,92,255,.25);
+    }
+    .nav-btn.primary:hover{
+      box-shadow: 0 12px 32px rgba(124,92,255,.35);
+      filter: brightness(1.08);
+    }
+
+    .nav-btn.flower{
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.15), transparent 65%),
+        linear-gradient(135deg, rgba(255,106,162,.95), rgba(124,92,255,.90));
+      border: 1px solid rgba(255,255,255,.25);
+      color: white;
+      box-shadow:
+        0 8px 28px rgba(255,106,162,.3),
+        0 0 0 0 rgba(255,106,162,.4);
+      animation: flowerPulse 2.2s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+
+      opacity: 0;
+      transform: scale(.85);
+      pointer-events: none;
+      transition: opacity .5s ease, transform .5s cubic-bezier(.18,.9,.18,1);
+    }
+
+    .nav-btn.flower.unlocked{
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .nav-btn.flower:before{
+      content: "";
+      position: absolute;
+      inset: -100%;
+      background: linear-gradient(110deg,
+        transparent 35%,
+        rgba(255,255,255,.28) 50%,
+        transparent 65%);
+      animation: shimmerFlow 3s linear infinite;
+    }
+
+    @keyframes flowerPulse{
+      0%, 100%{
+        box-shadow: 0 8px 28px rgba(255,106,162,.3), 0 0 0 0 rgba(255,106,162,.4);
+      }
+      50%{
+        box-shadow: 0 10px 34px rgba(255,106,162,.4), 0 0 0 10px rgba(255,106,162,0);
+      }
+    }
+
+    @keyframes shimmerFlow{
+      0%{ transform: translateX(-100%) rotate(20deg); }
+      100%{ transform: translateX(100%) rotate(20deg); }
+    }
+
+    /* =========================================================
+      ✨ MAIL ICON (OPTIMIZED)
     ==========================================================*/
     .mail{
       width:240px;
       height:165px;
-      margin:0 auto;
+      margin:0 auto 20px;
       position:relative;
       transform-origin:center;
-      filter: drop-shadow(0 20px 34px rgba(0,0,0,.48));
-      animation: float 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 22px 40px rgba(0,0,0,.50));
+      animation: float 3s ease-in-out infinite;
       cursor:pointer;
       user-select:none;
       will-change: transform;
+      transition: filter .3s ease;
     }
-    .mail:hover{ filter: drop-shadow(0 26px 46px rgba(0,0,0,.55)); }
+    .mail:hover{
+      filter: drop-shadow(0 28px 52px rgba(0,0,0,.58));
+    }
     @keyframes float{
       0%,100%{ transform: translateY(0) rotate(-.8deg); }
-      50%{ transform: translateY(-10px) rotate(.8deg); }
+      50%{ transform: translateY(-12px) rotate(.8deg); }
     }
 
-    /* glass body */
     .mail .body{
       position:absolute;
       inset:0;
       border-radius:26px;
       background:
-        radial-gradient(120px 90px at 20% 18%, rgba(255,255,255,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.16);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+        radial-gradient(140px 100px at 22% 18%, rgba(255,255,255,.20), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.07));
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       overflow:hidden;
     }
-    /* shimmer */
     .mail .body:before{
       content:"";
       position:absolute;
       inset:-60px;
       background: linear-gradient(110deg,
         transparent 30%,
-        rgba(255,255,255,.18) 45%,
+        rgba(255,255,255,.20) 45%,
         transparent 60%);
       transform: translateX(-35%);
-      animation: shimmer 3.2s ease-in-out infinite;
-      opacity:.9;
+      animation: shimmer 3.5s ease-in-out infinite;
+      opacity:.85;
       pointer-events:none;
     }
     @keyframes shimmer{
-      0%{ transform: translateX(-55%) rotate(6deg); opacity:.25; }
-      45%{ opacity:.55; }
-      100%{ transform: translateX(55%) rotate(6deg); opacity:.25; }
+      0%{ transform: translateX(-55%) rotate(6deg); opacity:.22; }
+      45%{ opacity:.58; }
+      100%{ transform: translateX(55%) rotate(6deg); opacity:.22; }
     }
 
-    /* top flap (prettier + smooth open) */
     .flap{
       position:absolute;
       left:0; right:0;
@@ -114,33 +234,35 @@
       height:62%;
       transform-origin: top center;
       background:
-        radial-gradient(140px 120px at 20% 10%, rgba(255,255,255,.18), transparent 55%),
-        linear-gradient(135deg, rgba(124,92,255,.62), rgba(255,106,162,.62));
-      border:1px solid rgba(255,255,255,.18);
+        radial-gradient(160px 130px at 22% 12%, rgba(255,255,255,.20), transparent 60%),
+        linear-gradient(135deg, rgba(124,92,255,.65), rgba(255,106,162,.65));
+      border:1px solid rgba(255,255,255,.20);
       border-bottom:none;
       border-top-left-radius:26px;
       border-top-right-radius:26px;
       clip-path: polygon(0 0, 100% 0, 50% 82%);
       transform: perspective(900px) rotateX(0deg);
-      transition: transform .85s cubic-bezier(.18,.9,.18,1);
+      transition: transform .9s cubic-bezier(.18,.9,.18,1);
       will-change: transform;
     }
 
-    /* heart seal */
     .seal{
       position:absolute;
       left:50%;
       top:52%;
       transform: translate(-50%, -50%);
-      width:34px;height:34px;
+      width:36px;height:36px;
       border-radius:14px;
-      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.22), transparent 55%),
-                  linear-gradient(135deg, rgba(255,106,162,.95), rgba(124,92,255,.9));
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow: 0 18px 34px rgba(0,0,0,.35);
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255,255,255,.26), transparent 60%),
+        linear-gradient(135deg, rgba(255,106,162,.98), rgba(124,92,255,.95));
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,.42),
+        inset 0 1px 2px rgba(255,255,255,.15);
       display:grid;
       place-items:center;
-      transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .35s ease;
+      transition: transform .5s cubic-bezier(.2,.9,.2,1), opacity .4s ease;
       z-index:3;
     }
     .seal:before{
@@ -148,104 +270,111 @@
       width:14px;height:14px;
       transform: rotate(45deg);
       border-radius:3px;
-      background: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.95);
       position:relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,.2);
     }
     .seal:after{
       content:"";
       position:absolute;
       width:14px;height:14px;
-      background: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.95);
       border-radius:50%;
       left:50%;
       top:50%;
       transform: translate(-56%, -78%);
-      box-shadow: 7px 7px 0 0 rgba(255,255,255,.92);
+      box-shadow: 7px 7px 0 0 rgba(255,255,255,.95);
     }
 
-    /* letter preview */
     .letter-peek{
       position:absolute;
       left:14px; right:14px;
       bottom:14px;
       height:60%;
       border-radius:20px;
-      border:1px solid rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.14);
       background:
-        radial-gradient(120px 90px at 80% 30%, rgba(255,106,162,.10), transparent 60%),
-        rgba(0,0,0,.18);
+        radial-gradient(130px 100px at 75% 28%, rgba(255,106,162,.12), transparent 65%),
+        rgba(0,0,0,.20);
       overflow:hidden;
       transform: translateY(34px);
-      transition: transform .95s cubic-bezier(.18,.9,.18,1);
+      transition: transform 1s cubic-bezier(.18,.9,.18,1);
       z-index:2;
     }
-    .peek-lines{
-      padding:14px;
-      display:grid;
-      gap:8px;
-      opacity:.9;
-    }
+    .peek-lines{ padding:16px; display:grid; gap:9px; opacity:.9; }
     .line{
       height:10px;
       border-radius:99px;
-      background: rgba(255,255,255,.12);
+      background: linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,.10));
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
     }
     .line:nth-child(2){width:82%}
     .line:nth-child(3){width:70%}
     .line:nth-child(4){width:88%}
 
-    /* ping improved */
     .ping{
       position:absolute;
       right:14px;
       top:14px;
-      width:12px;height:12px;
+      width:13px;height:13px;
       border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2));
-      box-shadow: 0 0 0 0 rgba(255,106,162,.45);
-      animation: ping 1.5s ease-out infinite;
+      background: radial-gradient(circle at 32% 32%, #fff, rgba(255,255,255,.25));
+      box-shadow: 0 0 0 0 rgba(255,106,162,.5), 0 2px 6px rgba(255,106,162,.4);
+      animation: ping 1.4s ease-out infinite;
       z-index:4;
     }
     @keyframes ping{
-      0%{ box-shadow:0 0 0 0 rgba(255,106,162,.35); transform:scale(1); }
-      100%{ box-shadow:0 0 0 18px rgba(255,106,162,0); transform:scale(1.02); }
+      0%{ box-shadow: 0 0 0 0 rgba(255,106,162,.4), 0 2px 6px rgba(255,106,162,.4); transform:scale(1); }
+      100%{ box-shadow: 0 0 0 20px rgba(255,106,162,0), 0 2px 6px rgba(255,106,162,0); transform:scale(1.03); }
     }
 
-    /* opened state */
-    .opened{
-      animation:none;
-      cursor:default;
-    }
-    .opened .flap{ transform: perspective(900px) rotateX(170deg); }
+    .opened{ animation:none; cursor:default; }
+    .opened .flap{ transform: perspective(900px) rotateX(172deg); }
     .opened .letter-peek{ transform: translateY(0px); }
     .opened .seal{
-      transform: translate(-50%, -50%) scale(.6) rotate(-12deg);
+      transform: translate(-50%, -50%) scale(.55) rotate(-15deg);
       opacity:0;
       pointer-events:none;
     }
 
-    /* --- button --- */
+    /* =========================================================
+      ✨ OPEN BUTTON
+    ==========================================================*/
     .controls{
-      margin-top:18px;
+      margin-top:0;
       display:flex;
-      gap:10px;
+      gap:12px;
       justify-content:center;
       flex-wrap:wrap;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity .4s ease, transform .4s ease;
     }
+    .controls.hidden{
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
     button{
       border:0;
-      padding:11px 14px;
-      border-radius:14px;
-      font-weight:750;
+      padding:13px 22px;
+      border-radius:16px;
+      font-weight:820;
       cursor:pointer;
-      transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+      transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
       user-select:none;
     }
-    button:active{ transform:translateY(1px) scale(.99); }
+    button:active{ transform:translateY(1px) scale(.98); }
     .primary{
       background: linear-gradient(135deg, var(--me1), var(--me2));
       color:white;
-      box-shadow: 0 16px 44px rgba(124,92,255,.18);
+      box-shadow: 0 18px 48px rgba(124,92,255,.22);
+      border:1px solid rgba(255,255,255,.16);
+    }
+    .primary:hover{
+      box-shadow: 0 22px 54px rgba(124,92,255,.30);
+      filter: brightness(1.08);
     }
     .ghost{
       background: rgba(255,255,255,.08);
@@ -253,91 +382,108 @@
       color: rgba(255,255,255,.85);
     }
 
-    /* --- letter panel --- */
+    /* =========================================================
+      ✨ LETTER SHELL
+    ==========================================================*/
     .letterShell{
-      margin-top:16px;
+      margin-top:24px;
       width:100%;
       border-radius: var(--r);
       background: rgba(255,255,255,.07);
       border:1px solid rgba(255,255,255,.14);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       overflow:hidden;
-
       opacity:0;
-      transform: translateY(18px) scale(.98);
+      transform: translateY(20px) scale(.97);
       pointer-events:none;
-      transition: opacity .35s ease, transform .35s ease;
+      transition: opacity .45s ease, transform .45s cubic-bezier(.18,.9,.18,1);
     }
     .letterShell.show{
       opacity:1;
       transform: translateY(0) scale(1);
       pointer-events:auto;
     }
+
     .letterTop{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding:12px 14px;
-      background: rgba(0,0,0,.14);
+      padding:14px 18px;
+      background: rgba(0,0,0,.16);
       border-bottom:1px solid rgba(255,255,255,.10);
       text-align:left;
     }
-    .who{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
+    .who{ display:flex; align-items:center; gap:12px; min-width:0; }
     .avatar{
-      width:30px;height:30px;border-radius:10px;
-      background: linear-gradient(135deg, rgba(124,92,255,.9), rgba(255,106,162,.9));
-      border:1px solid rgba(255,255,255,.18);
+      width:34px;height:34px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(255,106,162,.95));
+      border:1px solid rgba(255,255,255,.22);
       flex:0 0 auto;
+      box-shadow: 0 4px 14px rgba(124,92,255,.28);
     }
-    .meta{
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-    }
-    .meta b{ font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .meta span{ font-size:12px; color:var(--muted); }
+    .meta{ display:flex; flex-direction:column; min-width:0; }
+    .meta b{ font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .meta span{ font-size:12.5px; color:var(--muted); }
 
     .tinyBtn{
-      padding:8px 10px;
-      border-radius:12px;
-      font-weight:700;
+      padding:9px 13px;
+      border-radius:13px;
+      font-weight:780;
       background: rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.85);
+      color: rgba(255,255,255,.88);
       cursor:pointer;
+      font-size: 13px;
+      transition: all .15s ease;
+    }
+    .tinyBtn:hover{
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.20);
     }
 
     .letterBody{
-      padding:16px 16px 10px;
+      padding:18px 18px 14px;
       text-align:left;
       min-height:240px;
     }
+
+    /* ✅ PAPER: scrollbar hidden, still auto-scroll + swipe scroll */
     .paper{
       border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,106,162,.06), transparent 55%),
+        rgba(0,0,0,.20);
       border-radius:18px;
-      padding:14px 14px;
+      padding:16px 16px;
       line-height:1.75;
       font-size:14.5px;
       white-space:pre-wrap;
       position:relative;
-      overflow:hidden;
+      overflow:auto;
+      max-height: 50vh;
+      -webkit-overflow-scrolling: touch;
+      transform: translateZ(0);
+      will-change: scroll-position;
+
+      /* hide scrollbar but keep scroll */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .paper::-webkit-scrollbar{
+      width:0;
+      height:0;
+    }
+
     .paper:before{
       content:"";
       position:absolute;
       inset:-60px;
-      background: radial-gradient(circle at 30% 10%, rgba(255,106,162,.10), transparent 55%),
-                  radial-gradient(circle at 80% 30%, rgba(124,92,255,.10), transparent 55%);
-      filter: blur(0px);
+      background:
+        radial-gradient(circle at 30% 10%, rgba(255,106,162,.10), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(124,92,255,.10), transparent 55%);
       pointer-events:none;
     }
     .paperContent{
@@ -345,45 +491,52 @@
       z-index:1;
       min-height:160px;
       font-variant-ligatures: none;
+      text-rendering: optimizeSpeed;
     }
 
-    /* typing caret */
     .caret{
       display:inline-block;
       width:8px;
-      height:16px;
+      height:17px;
       border-radius:4px;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.82);
       margin-left:4px;
       transform: translateY(2px);
       animation: blink .9s infinite;
+      box-shadow: 0 0 8px rgba(255,255,255,.4);
     }
-    @keyframes blink{ 0%,49%{opacity:1} 50%,100%{opacity:.15} }
+    @keyframes blink{
+      0%,49%{opacity:1}
+      50%,100%{opacity:.10}
+    }
 
-    /* reply area */
     .replyWrap{
       display:none;
-      padding:12px 14px 14px;
+      padding:14px 18px 18px;
       border-top:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
+      background: rgba(0,0,0,.14);
       text-align:left;
-      gap:10px;
+      gap:12px;
     }
     .replyWrap.show{ display:grid; }
 
     textarea{
       width:100%;
-      min-height:86px;
+      min-height:92px;
       resize:vertical;
       border-radius:16px;
-      padding:11px 12px;
+      padding:12px 14px;
       border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.18);
+      background:rgba(0,0,0,.22);
       color:rgba(255,255,255,.92);
       outline:none;
       font-size:14px;
-      line-height:1.45;
+      line-height:1.5;
       transition:.2s ease;
+    }
+    textarea:focus{
+      border-color: rgba(124,92,255,.42);
+      box-shadow: 0 0 0 3px rgba(124,92,255,.12);
     }
 
     .row{
@@ -393,76 +546,71 @@
       align-items:center;
       justify-content:space-between;
     }
-    .hint{
-      font-size:12.5px;
-      color: rgba(255,255,255,.70);
-      line-height:1.4;
-    }
+    .hint{ font-size:13px; color: rgba(255,255,255,.72); line-height:1.45; }
     .send{
-      background: rgba(72,213,151,.14);
-      border:1px solid rgba(72,213,151,.22);
+      background: rgba(72,213,151,.16);
+      border:1px solid rgba(72,213,151,.28);
       color: rgba(255,255,255,.92);
-      font-weight:850;
+      font-weight:860;
+      padding: 12px 20px;
+    }
+    .send:hover{
+      background: rgba(72,213,151,.22);
+      border-color: rgba(72,213,151,.38);
     }
 
-    /* toast */
     .toast{
       position:fixed;
       left:50%;
-      bottom:18px;
+      bottom:90px;
       transform:translateX(-50%);
-      background:rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.14);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding:10px 12px;
-      border-radius:14px;
-      color:rgba(255,255,255,.88);
-      font-size:13px;
+      background:rgba(0,0,0,.65);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding:11px 16px;
+      border-radius:16px;
+      color:rgba(255,255,255,.92);
+      font-size:13.5px;
+      font-weight: 650;
       opacity:0;
       pointer-events:none;
-      transition: opacity .2s ease, transform .2s ease;
-      z-index:9;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index:999;
+      box-shadow: 0 12px 32px rgba(0,0,0,.45);
     }
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(-4px);
-    }
+    .toast.show{ opacity:1; transform:translateX(-50%) translateY(-8px); }
 
-    /* ===== AKHIRAN ===== */
     #ending{
       position:fixed;
       inset:0;
       display:grid;
       place-items:center;
       padding:18px;
-      background:rgba(0,0,0,.55);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
+      background:rgba(0,0,0,.62);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
       opacity:0;
       pointer-events:none;
-      transition:.3s ease;
-      z-index:999;
+      transition:.35s ease;
+      z-index:9999;
     }
     #ending.show{ opacity:1; pointer-events:auto; }
     #ending .card{
       width:min(520px,100%);
       background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:22px;
-      padding:18px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:24px;
+      padding:24px;
       box-shadow: var(--shadow);
       text-align:left;
     }
-    #ending h2{ margin:0 0 8px; font-size:18px; }
-    #ending p{ margin:0 0 12px; color:rgba(255,255,255,.78); line-height:1.55; font-size:14px; }
+    #ending h2{ margin:0 0 10px; font-size:19px; }
+    #ending p{ margin:0 0 14px; color:rgba(255,255,255,.82); line-height:1.6; font-size:14.5px; }
     #ending .btns{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
 
     /* =========================================================
-       ✅ VALENTINE ANIMATION (ditambah, yang lain ga diubah)
-       - hearts sprinkle pas surat kebuka
-       - love pulse halo di paper
-       - sedikit confetti-heart pas typing selesai
+      ✨ VALENTINE ANIMATION (OPTIMIZED)
     ==========================================================*/
     .val-hearts{
       position:fixed;
@@ -470,7 +618,7 @@
       pointer-events:none;
       z-index:50;
       opacity:0;
-      transition: opacity .25s ease;
+      transition: opacity .3s ease;
     }
     .val-hearts.show{ opacity:1; }
 
@@ -483,6 +631,7 @@
       filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
       animation: valFloat 6.5s linear infinite;
       opacity:.0;
+      will-change: transform;
     }
     .val-heart:before,.val-heart:after{
       content:"";
@@ -500,25 +649,24 @@
       100%{ transform: translateY(-15vh) rotate(45deg) scale(1.15); opacity:0; }
     }
 
-    /* glow pulse on paper while typing */
     .paper.val-glow:after{
       content:"";
       position:absolute;
       inset:-2px;
       border-radius:20px;
-      background: radial-gradient(circle at 30% 20%, rgba(255,106,162,.25), transparent 55%),
-                  radial-gradient(circle at 80% 40%, rgba(124,92,255,.22), transparent 60%);
-      filter: blur(10px);
-      opacity:.85;
-      animation: lovePulse 1.6s ease-in-out infinite;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,106,162,.28), transparent 58%),
+        radial-gradient(circle at 80% 40%, rgba(124,92,255,.25), transparent 62%);
+      filter: blur(11px);
+      opacity:.8;
+      animation: lovePulse 1.7s ease-in-out infinite;
       pointer-events:none;
     }
     @keyframes lovePulse{
-      0%,100%{ transform: scale(1); opacity:.55; }
-      50%{ transform: scale(1.03); opacity:.9; }
+      0%,100%{ transform: scale(1); opacity:.5; }
+      50%{ transform: scale(1.03); opacity:.92; }
     }
 
-    /* small burst hearts (confetti) */
     .burst{
       position:fixed;
       left:50%;
@@ -552,29 +700,53 @@
       100%{ transform: translate(var(--x), var(--y)) rotate(45deg) scale(1.15); opacity:0; }
     }
 
-    /* reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .mail, .mail .body:before, .val-heart, .paper.val-glow:after, .ping{ animation:none!important; }
+      .mail, .mail .body:before, .val-heart, .paper.val-glow:after, .ping,
+      .nav-btn.flower{ animation:none!important; }
       .flap, .letter-peek, .seal{ transition:none!important; }
+    }
+
+    @media (max-width: 480px){
+      .floating-nav{
+        padding: 10px 14px;
+        gap: 8px;
+      }
+      .nav-btn{
+        padding: 9px 14px;
+        font-size: 12.5px;
+      }
+      .paper{
+        max-height: 42vh;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- ✅ overlay hearts (valentine) -->
   <div class="val-hearts" id="valHearts" aria-hidden="true"></div>
+
+  <!-- ✅ BGM: simpan file di img/takemeback.mp3 -->
+  <!-- Autoplay sering diblokir kalau ada suara, jadi mulai muted dulu, unmute pas user klik buka surat/tap layar -->
+  <audio id="bgm" autoplay loop muted playsinline preload="auto">
+    <source src="img/takemeback.mp3" type="audio/mpeg">
+  </audio>
+
+  <nav class="floating-nav" id="floatingNav">
+    <button class="nav-btn home" onclick="location.href='#'">
+      <span>🏠</span><span>Home</span>
+    </button>
+    <a href="FLORES.html" class="nav-btn flower" id="flowerBtn">
+      <span>🌷</span><span>Lihat Bunga</span>
+    </a>
+  </nav>
 
   <div class="wrap">
     <div class="stage">
-
       <div class="mail" id="mail" title="Klik buat buka">
         <div class="body"></div>
         <div class="ping" id="ping"></div>
-
-        <!-- ✅ heart seal (baru) -->
         <div class="seal" aria-hidden="true"></div>
-
         <div class="flap"></div>
-
         <div class="letter-peek">
           <div class="peek-lines">
             <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
@@ -582,9 +754,8 @@
         </div>
       </div>
 
-      <div class="controls">
-        <button class="ghost" type="button" onclick="location.href='index.html'">Kembali</button>
-        <button class="primary" id="openBtn">Buka Surat </button>
+      <div class="controls" id="controls">
+        <button class="primary" id="openBtn">Buka Surat 💌</button>
       </div>
 
       <div class="letterShell" id="letterShell">
@@ -593,10 +764,10 @@
             <div class="avatar"></div>
             <div class="meta">
               <b id="toName">Untuk Sayang</b>
-              <span id="status">mengketik…</span>
+              <span id="status">menunggu…</span>
             </div>
           </div>
-          <button class="tinyBtn" id="copyLetterBtn">Copy Surat</button>
+          <button class="tinyBtn" id="copyLetterBtn">Copy</button>
         </div>
 
         <div class="letterBody">
@@ -607,16 +778,15 @@
 
         <div class="replyWrap" id="replyWrap">
           <div class="hint">
-            Tulis balasan kamu. Nanti kekirim ke wa hehehe
+            Tulis balasan kamu. Nanti kekirim ke WhatsApp hehehe
           </div>
           <textarea id="replyText" placeholder="Tulis balasan kamu di sini…"></textarea>
           <div class="row">
-            <button class="ghost" id="copyReplyBtn" type="button">Copy Balasan</button>
-            <button class="send" id="sendBtn" type="button">Kirim ke WhatsApp </button>
+            <button class="ghost nav-btn" id="copyReplyBtn" type="button">Copy Balasan</button>
+            <button class="send" id="sendBtn" type="button">Kirim ke WhatsApp 💬</button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -626,17 +796,16 @@
     <div class="card">
       <h2>Makasih ya 🤍</h2>
       <p>Makasih udah baca sayang dan makasih udah ngirim balasan.</p>
-      <p>Jangan marah lagii ya pwissss.</p>
+      <p>Jangan marah lagi ya pwissss.</p>
       <div class="btns">
-        <button class="ghost" id="endClose" type="button">Tutup</button>
+        <button class="nav-btn home" id="endClose" type="button">Tutup</button>
         <button class="primary" id="endAgain" type="button">Buka WhatsApp Lagi</button>
       </div>
     </div>
   </div>
 
   <script>
-    // ✅ nomor WA tujuan (nomor kamu)
-    const YOUR_WA_NUMBER = "6282119757264"; // ganti kalau perlu
+    const YOUR_WA_NUMBER = "6282119757264";
 
     const CONFIG = {
       to: "Aghisna Irfa Arnas",
@@ -661,8 +830,8 @@
         "",
         `— ${"Aku reyzal im jall gue reyzal gaggaa"}`
       ].join("\n"),
-      typingSpeed: { min: 18, max: 38 },
-      afterDoneDelay: 450
+      typingSpeed: { min: 12, max: 24 },
+      afterDoneDelay: 300
     };
 
     const $ = (id) => document.getElementById(id);
@@ -672,6 +841,7 @@
     const mail = $("mail");
     const ping = $("ping");
     const openBtn = $("openBtn");
+    const controls = $("controls");
     const letterShell = $("letterShell");
     const paperText = $("paperText");
     const caret = $("caret");
@@ -683,21 +853,59 @@
     const toast = $("toast");
     const copyLetterBtn = $("copyLetterBtn");
     const copyReplyBtn = $("copyReplyBtn");
+    const floatingNav = $("floatingNav");
+    const flowerBtn = $("flowerBtn");
 
     const ending = $("ending");
     const endClose = $("endClose");
     const endAgain = $("endAgain");
 
-    // ✅ valentine anim hooks
     const valHearts = $("valHearts");
     const paperBox = $("paperBox");
 
+    // ===== BGM (img/takemeback.mp3) =====
+    const bgm = document.getElementById("bgm");
+    if (bgm){
+      bgm.volume = 0.75;
+      bgm.play().catch(()=>{});
+    }
+    async function enableSound(){
+      if (!bgm) return;
+      try{
+        bgm.muted = false;
+        await bgm.play();
+      }catch(e){}
+    }
+    // unmute pas user tap pertama kali (mobile-friendly)
+    window.addEventListener("pointerdown", enableSound, { once:true, passive:true });
+
     toName.textContent = `Untuk ${CONFIG.to}`;
+
+    // ✅ SMART NAVIGATION: Auto-hide on scroll down
+    let lastScrollY = window.scrollY;
+    let scrollTimeout;
+
+    const handleScroll = () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+
+      scrollTimeout = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          floatingNav.classList.add('hidden');
+        } else {
+          floatingNav.classList.remove('hidden');
+        }
+        lastScrollY = currentScrollY;
+      }, 50);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     function showToast(text){
       toast.textContent = text || "OK";
       toast.classList.add("show");
-      setTimeout(()=>toast.classList.remove("show"), 1300);
+      setTimeout(()=>toast.classList.remove("show"), 1500);
     }
 
     function openWhatsApp(message){
@@ -707,7 +915,6 @@
       else window.open(url, "_blank", "noopener,noreferrer");
     }
 
-    // ===== Valentine helpers =====
     function mountHearts(){
       if (valHearts.children.length) return;
       const count = 14;
@@ -743,8 +950,13 @@
         p.style.animationDelay = `${(Math.random()*0.12).toFixed(2)}s`;
         b.appendChild(p);
       }
-
       setTimeout(()=> b.remove(), 950);
+    }
+
+    function scrollPaperToBottom(){
+      requestAnimationFrame(() => {
+        paperBox.scrollTop = paperBox.scrollHeight;
+      });
     }
 
     let running = false;
@@ -754,18 +966,25 @@
       paperText.textContent = "";
       caret.style.display = "inline-block";
       status.textContent = "mengetik…";
-
-      // ✅ valentine glow while typing
       paperBox.classList.add("val-glow");
 
-      for (let i = 0; i < fullText.length; i++){
-        paperText.textContent += fullText[i];
-        await sleep(rand(CONFIG.typingSpeed.min, CONFIG.typingSpeed.max));
+      let buf = "";
+      const batchSize = 3;
+
+      for (let i = 0; i < fullText.length; i += batchSize){
+        buf += fullText.slice(i, i + batchSize);
+
+        await new Promise(resolve => {
+          requestAnimationFrame(() => {
+            paperText.textContent = buf;
+            scrollPaperToBottom();
+            setTimeout(resolve, rand(CONFIG.typingSpeed.min, CONFIG.typingSpeed.max));
+          });
+        });
       }
 
-      status.textContent = "selesai dibaca";
+      status.textContent = "selesai dibaca ✓";
       caret.style.display = "none";
-
       paperBox.classList.remove("val-glow");
       burstHearts();
     }
@@ -774,14 +993,18 @@
       if (running) return;
       running = true;
 
+      // ensure sound starts when opening
+      await enableSound();
+
+      controls.classList.add("hidden");
+
       mail.classList.add("opened");
       ping.style.opacity = "0";
       ping.style.animation = "none";
       openBtn.disabled = true;
-      openBtn.textContent = "Pesan Dibuka";
 
-      // ✅ hearts appear when opened
       showHearts();
+      floatingNav.classList.add("reading-mode");
 
       letterShell.classList.add("show");
       await sleep(250);
@@ -789,9 +1012,16 @@
       await typeLetter(CONFIG.letter);
 
       await sleep(CONFIG.afterDoneDelay);
+
+      flowerBtn.classList.add("unlocked");
       replyWrap.classList.add("show");
 
-      replyWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        replyWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => {
+          try { replyText.focus({ preventScroll: true }); } catch(e) { replyText.focus(); }
+        }, 400);
+      }, 100);
 
       running = false;
     }
@@ -804,7 +1034,7 @@
         await navigator.clipboard.writeText(paperText.textContent.trim());
         showToast("Surat ke-copy 📋");
       }catch(e){
-        showToast("Gagal copy (izin browser)");
+        showToast("Gagal copy");
       }
     });
 
@@ -815,7 +1045,7 @@
         await navigator.clipboard.writeText(v);
         showToast("Balasan ke-copy 📋");
       }catch(e){
-        showToast("Gagal copy (izin browser)");
+        showToast("Gagal copy");
       }
     });
 
@@ -836,7 +1066,7 @@ ${v}`;
       setTimeout(() => {
         ending.classList.add("show");
         ending.setAttribute("aria-hidden","false");
-      }, 450);
+      }, 500);
     });
 
     endClose.addEventListener("click", () => {
@@ -855,6 +1085,16 @@ ${v}`;
         ending.setAttribute("aria-hidden","true");
       }
     });
+
+    // lock body scroll while modal open
+    const observer = new MutationObserver(() => {
+      if (ending.classList.contains("show")) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+    observer.observe(ending, { attributes: true, attributeFilter: ['class'] });
   </script>
 </body>
 </html>
